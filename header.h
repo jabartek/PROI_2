@@ -64,6 +64,7 @@ public:
     ~ShipPImpl();
 
     ShipPImpl(const ShipPImpl &);
+
     //ShipPImpl& operator=(const ShipPImpl& );
 
     bool placeAtXY(PimplGrid *, IntGrid *, int, int, int);

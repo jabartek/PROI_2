@@ -7,11 +7,6 @@
 template<class T>
 GridTemplate<T>::GridTemplate(int xSize, int ySize) : xSize_(xSize), ySize_(ySize) {
     allocation();
-    for (int i = 0; i < ySize_; i++) {
-        for (int j = 0; j < xSize_; j++) {
-            tiles_[i][j] = (T) 0;
-        }
-    }
 }
 
 template<class T>
@@ -22,7 +17,10 @@ GridTemplate<T>::GridTemplate():xSize_(1), ySize_(1) {
 
 template<class T>
 GridTemplate<T>::~GridTemplate() {
-    //dtor
+    for (int i = 0; i < ySize_; i++) {
+        delete[] tiles_[i];
+    }
+    delete[] tiles_;
 }
 
 template<class T>
@@ -113,12 +111,17 @@ void GridTemplate<T>::allocation() {
     for (int i = 0; i < ySize_; i++) {
         tiles_[i] = new T[xSize_];
     }
+    for (int i = 0; i < ySize_; i++) {
+        for (int j = 0; j < xSize_; j++) {
+            tiles_[i][j] = (T) 0;
+        }
+    }
 }
 
 
 class ShipPImpl::Impl {
 public:
-    Impl(int tilesNum) : tiles_(tilesNum) {
+    explicit Impl(int tilesNum) : tiles_(tilesNum) {
         allocation();
         placedOnInts_ = nullptr;
         placedOnShip_ = nullptr;
@@ -131,17 +134,21 @@ public:
     }
 
     virtual ~Impl() {
-        //ehhhhhhh
+        removeFromMap();
+        delete[] hitTiles_;
     };
 
-    Impl(const Impl &);
+    Impl(const Impl &) {
+
+    };
 
     //Impl& operator=(const Impl& );
+
     void removeFromMap(const ShipPImpl *S) {
         if (!isPlaced_)
             return;
         switch (heading_) {
-            case 0:
+            default:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + i, headY_ + j);
@@ -204,7 +211,7 @@ public:
         if (isPlaced_) removeFromMap(S);
         bool ifValid = false;
         if (intGrid->getValue(xPos, yPos) != 0)
-            return 0;
+            return false;
         switch (heading) {
             default:
                 for (int i = 0; i < tiles_; i++) {
@@ -319,7 +326,7 @@ public:
 
     int shotAtXY(int xCoord, int yCoord) {
         switch (heading_) {
-            case 0:
+            default:
                 if (yCoord == headY_ && xCoord < headX_ + tiles_ && xCoord >= headX_)
                     return shotAtTile(std::abs(xCoord - headX_));
             case 1:
@@ -339,7 +346,7 @@ public:
 
     char renderTile(int tileToRender, int param) {
         switch (param) {
-            case 0:
+            default:
                 if (tileToRender >= 0 && tileToRender < tiles_) {
                     if (hitTiles_[tileToRender] == 0) {
                         return 'O';
@@ -355,7 +362,6 @@ public:
                 }
                 return '=';
         }
-        return '=';
     }
 
     char renderXY(int xCoord, int yCoord, int param) {
@@ -386,7 +392,7 @@ private:
     int tiles_ = 0;
     int headX_ = -1;
     int headY_ = -1;
-    bool isPlaced_ = 0;
+    bool isPlaced_ = false;
     int shotAt_ = 0;
     PimplGrid *placedOnShip_;
     IntGrid *placedOnInts_;
@@ -427,7 +433,6 @@ bool ShipPImpl::isDead() {
 
 ShipPImpl::~ShipPImpl() {
     delete pImpl;
-    pImpl = nullptr;
 }
 
 ShipPImpl::ShipPImpl(int s) : pImpl(new Impl(s)) {
