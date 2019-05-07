@@ -59,7 +59,7 @@ typedef GridTemplate<int> IntGrid;
 class ShipPImpl {
 public:
 
-    ShipPImpl(int);
+    explicit ShipPImpl(int);
 
     ShipPImpl();
 

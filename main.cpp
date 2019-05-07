@@ -6,6 +6,16 @@
 #include "header.h"
 
 int main() {
+    ShipPImpl tablica[10];
+
+    IntGrid Mapa1(10, 10);
+    PimplGrid Mapa2(10, 10);
+
+    Mapa1.printGrid();
+    Mapa2.printGrid();
+
+
+    /*
     std::deque<ShipPImpl *> Kolejka1 = {};
     std::deque<ShipPImpl *> Kolejka2 = {};
     int typeCounts[CHOICES];
@@ -64,6 +74,6 @@ int main() {
             } else
                 std::cout << "Nie trafiles :<\n";
         }
-    }
+    }*/
     return 0;
 }

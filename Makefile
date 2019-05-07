@@ -1,5 +1,5 @@
 
-appname := PROI_3
+appname := PROI_2
 
 CXX := g++
 CXXFLAGS := -std=c++11 -Wall -g

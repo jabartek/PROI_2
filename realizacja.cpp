@@ -446,6 +446,10 @@ ShipPImpl::ShipPImpl(int s) : pImpl(new Impl(s)) {
     pImpl->setParent(this);
 };
 
+ShipPImpl::ShipPImpl() : pImpl(new Impl(1)) {
+    pImpl->setParent(this);
+};
+
 template
 class GridTemplate<int>;
 
