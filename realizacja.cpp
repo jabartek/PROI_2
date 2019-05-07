@@ -134,7 +134,7 @@ public:
     }
 
     virtual ~Impl() {
-        removeFromMap();
+        this->removeFromMap();
         delete[] hitTiles_;
     };
 
@@ -143,7 +143,9 @@ public:
     };
 
     //Impl& operator=(const Impl& );
-
+    void removeFromMap() {
+        removeFromMap(parent_);
+    }
     void removeFromMap(const ShipPImpl *S) {
         if (!isPlaced_)
             return;
@@ -379,6 +381,10 @@ public:
         return (shotAt_ >= tiles_);
     }
 
+    void setParent(ShipPImpl *S) {
+        parent_ = S;
+    }
+
 private:
     void allocation() {
         hitTiles_ = new int[tiles_];
@@ -394,6 +400,7 @@ private:
     int headY_ = -1;
     bool isPlaced_ = false;
     int shotAt_ = 0;
+    ShipPImpl *parent_ = nullptr;
     PimplGrid *placedOnShip_;
     IntGrid *placedOnInts_;
 
@@ -436,6 +443,7 @@ ShipPImpl::~ShipPImpl() {
 }
 
 ShipPImpl::ShipPImpl(int s) : pImpl(new Impl(s)) {
+    pImpl->setParent(this);
 };
 
 template

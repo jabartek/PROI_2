@@ -10,6 +10,8 @@
 #include <memory>
 #include <deque>
 
+#define CHOICES 4
+
 class ShipPImpl;
 
 template<class T>

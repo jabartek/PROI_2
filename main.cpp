@@ -6,10 +6,9 @@
 #include "header.h"
 
 int main() {
-    const int choices = 4;
     std::deque<ShipPImpl *> Kolejka1 = {};
     std::deque<ShipPImpl *> Kolejka2 = {};
-
+    int typeCounts[CHOICES];
     int x, y;
     std::cout << "Podaj szerokosc planszy: ";
     std::cin >> x;
@@ -17,13 +16,12 @@ int main() {
     std::cin >> y;
     auto *MapaInt = new IntGrid(x, y);
     auto *MapaPimpl = new PimplGrid(x, y);
-    auto *liczby = new int[choices];
-    for (int i = 1; i <= choices; i++) {
+    for (int i = 1; i <= CHOICES; i++) {
         std::cout << "\nPodaj liczbe " << i << "-masztowcow : ";
-        std::cin >> liczby[i - 1];
+        std::cin >> typeCounts[i - 1];
     }
-    for (int i = 0; i < choices; i++) {
-        for (int j = 0; j < liczby[i]; j++) {
+    for (int i = 0; i < CHOICES; i++) {
+        for (int j = 0; j < typeCounts[i]; j++) {
             auto temp = new ShipPImpl(i + 1);
             Kolejka1.push_back(temp);
         }
