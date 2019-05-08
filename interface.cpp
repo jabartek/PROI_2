@@ -187,7 +187,7 @@ void AnalyzeNotPlaced(std::deque<Ship *> *pending) {
         cout << tab[i] << " " << i + 1 << "-mast ones, ";
     }
     cout << " for a total of " << sum;
-
+    delete[] tab;
 }
 
 void DestroyNotPlaced(std::deque<Ship *> *pending) {
