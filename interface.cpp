@@ -25,7 +25,7 @@ int readInt() {
     return value;
 }
 
-int readIntFromRange(int minimum, int maximum = INT_MAX) {
+int readIntFromRange(int minimum, int maximum = INT8_MAX) {
     int result = readInt();
     while (result < minimum or result > maximum) {
         cout << "\nInserted value is out of range. Try again: ";
@@ -175,7 +175,7 @@ void AnalyzeNotPlaced(std::deque<Ship *> *pending) {
     for (int i = 0; i < MAX_SHIP; i++) {
         tab[i] = 0;
     }
-    for (int i = 0; i < pending->size(); i++) {
+    for (unsigned int i = 0; i < pending->size(); i++) {
         if (pending->front()->getTiles() <= MAX_SHIP)
             tab[pending->front()->getTiles() - 1]++;
         sum++;

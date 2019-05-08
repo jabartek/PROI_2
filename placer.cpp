@@ -46,7 +46,7 @@ void PlaceShips(std::deque<Ship *> *Pending, IntGrid *IntMap, PimplGrid *ShipMap
             for (int k = 0; k < 3; k += 2) {
                 if (Pending->empty()) break;
                 if (IntMap->getValue(i, j) == 0) {
-                    for (int o = 0; o < Pending->size(); o++) {
+                    for (unsigned int o = 0; o < Pending->size(); o++) {
                         if (Pending->empty()) break;
                         if (Pending->front()->placeAtXY(ShipMap, IntMap, i, j, k)) {
                             //Placed->push_front(Pending->front());
