@@ -9,23 +9,27 @@ using namespace std;
 
 
 int main() {
-    IntGrid *MapaI = new IntGrid(7, 5);
-    PimplGrid *MapaS = new PimplGrid(7, 5);
+    int m, n;
+    cin >> m >> n;
+    IntGrid *MapaI = new IntGrid(m, n);
+    PimplGrid *MapaS = new PimplGrid(m, n);
     deque<Ship *> kolejka1 = {};
     deque<Ship *> kolejka2 = {};
-    for (int i = 0; i < 0; i++) {
+    int x1, x2, x3, x4;
+    cin >> x1 >> x2 >> x3 >> x4;
+    for (int i = 0; i < x1; i++) {
         Ship *temp = new Ship(1);
         kolejka1.push_front(temp);
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < x2; i++) {
         Ship *temp = new Ship(2);
         kolejka1.push_front(temp);
     }
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < x3; i++) {
         Ship *temp = new Ship(3);
         kolejka1.push_front(temp);
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < x4; i++) {
         Ship *temp = new Ship(4);
         kolejka1.push_front(temp);
     }
@@ -34,17 +38,6 @@ int main() {
 
     MapaS->printGrid();;
 
-    delete MapaS;
-    while (!kolejka1.empty()) {
-        std::cout << "M";
-        delete kolejka1.front();
-        kolejka1.pop_front();
-    }
-    while (!kolejka2.empty()) {
-        std::cout << "N";
-        delete kolejka2.front();
-        kolejka2.pop_front();
-    }
 
     return 0;
 }

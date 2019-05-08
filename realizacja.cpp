@@ -31,7 +31,7 @@ GridTemplate<Ship *>::~GridTemplate() {
 template<>
 GridTemplate<int>::~GridTemplate() {
     for (int i = 0; i < ySize_; i++) {
-        delete tiles_[i];
+        delete[] tiles_[i];
     }
     delete[] tiles_;
 }
