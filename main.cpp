@@ -34,7 +34,7 @@ int main() {
 
     MapaS->printGrid();;
 
-
+    delete MapaS;
 
     return 0;
 }

@@ -15,10 +15,23 @@ GridTemplate<T>::GridTemplate():xSize_(1), ySize_(1) {
 }
 
 
-template<class T>
-GridTemplate<T>::~GridTemplate() {
+template<>
+GridTemplate<Ship *>::~GridTemplate() {
+    for (int i = 0; i < ySize_; i++) {
+        for (int j = 0; j < xSize_; j++) {
+            if (tiles_[i][j]) tiles_[i][j]->removeFromMap();
+        }
+    }
     for (int i = 0; i < ySize_; i++) {
         delete[] tiles_[i];
+    }
+    delete[] tiles_;
+}
+
+template<>
+GridTemplate<int>::~GridTemplate() {
+    for (int i = 0; i < ySize_; i++) {
+        delete tiles_[i];
     }
     delete[] tiles_;
 }
@@ -441,6 +454,7 @@ Ship::Ship() : pImpl_(new ShipImpl(1)) {
 
 Ship::~Ship() {
     std::cout << "DEL"; //DEBUG
+    removeFromMap();
 };
 
 
