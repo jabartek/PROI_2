@@ -92,7 +92,7 @@ private:
 
 };
 
-void PlaceShips(std::deque<Ship *>, std::deque<Ship *>, IntGrid *, PimplGrid *ShipMap);
+void PlaceShips(std::deque<Ship *> *, std::deque<Ship *> *, IntGrid *, PimplGrid *ShipMap);
 
 
 #endif //STATKI_PIMPL_SHIPPIMPL_H

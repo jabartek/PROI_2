@@ -30,11 +30,21 @@ int main() {
         kolejka1.push_front(temp);
     }
 
-    PlaceShips(kolejka1, kolejka2, MapaI, MapaS);
+    PlaceShips(&kolejka1, &kolejka2, MapaI, MapaS);
 
     MapaS->printGrid();;
 
     delete MapaS;
+    while (!kolejka1.empty()) {
+        std::cout << "M";
+        delete kolejka1.front();
+        kolejka1.pop_front();
+    }
+    while (!kolejka2.empty()) {
+        std::cout << "N";
+        delete kolejka2.front();
+        kolejka2.pop_front();
+    }
 
     return 0;
 }
