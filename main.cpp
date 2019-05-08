@@ -37,7 +37,7 @@ int main() {
     PlaceShips(&kolejka1, &kolejka2, MapaI, MapaS);
 
     MapaS->printGrid();;
-
+    delete MapaS;
 
     return 0;
 }

@@ -19,8 +19,13 @@ template<>
 GridTemplate<Ship *>::~GridTemplate() {
     for (int i = 0; i < ySize_; i++) {
         for (int j = 0; j < xSize_; j++) {
-            if (tiles_[i][j]) tiles_[i][j]->removeFromMap();
+            if (tiles_[i][j] != nullptr) {
+                delete tiles_[i][j]; //DEBUG
+                std::cout << "D";
+            }
+            std::cout << tiles_[i][j] << " ";
         }
+        std::cout << "\n";
     }
     for (int i = 0; i < ySize_; i++) {
         delete[] tiles_[i];
@@ -86,7 +91,7 @@ Ship *GridTemplate<Ship *>::getValue(int xPos, int yPos) {
 template<class T>
 void GridTemplate<T>::clearTile(int xPos, int yPos) {
     if (xPos >= 0 && xPos < xSize_ && yPos >= 0 && yPos < ySize_)
-        tiles_[yPos][xPos] = (T) NULL;
+        tiles_[yPos][xPos] = (T) 0;
 }
 
 template<>
@@ -164,7 +169,8 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + i, headY_ + j);
-                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(headX_ + i, headY_ + j) != nullptr)
+                            placedOnShip_->clearTile(headX_ + i, headY_ + j);
                     }
                 }
                 headX_ = -1;
@@ -178,7 +184,8 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + j, headY_ - i);
-                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(headX_ + j, headY_ - i) != nullptr)
+                            placedOnShip_->clearTile(headX_ + j, headY_ - i);
                     }
                 }
                 headX_ = -1;
@@ -192,7 +199,8 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ - i, headY_ + j);
-                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(headX_ - i, headY_ + j) != nullptr)
+                            placedOnShip_->clearTile(headX_ - i, headY_ + j);
                     }
                 }
                 headX_ = -1;
@@ -206,7 +214,8 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + j, headY_ + i);
-                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(headX_ + j, headY_ + i) != nullptr)
+                            placedOnShip_->clearTile(headX_ + j, headY_ + i);
                     }
                 }
                 headX_ = -1;
@@ -407,7 +416,6 @@ private:
     int headY_ = -1;
     bool isPlaced_ = false;
     int shotAt_ = 0;
-    Ship *parent_ = nullptr;
     PimplGrid *placedOnShip_;
     IntGrid *placedOnInts_;
 
@@ -453,7 +461,7 @@ Ship::Ship() : pImpl_(new ShipImpl(1)) {
 };
 
 Ship::~Ship() {
-    std::cout << "DEL"; //DEBUG
+    //std::cout << "DEL"; //DEBUG
     this->removeFromMap();
     pImpl_ = nullptr;
 };
