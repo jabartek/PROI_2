@@ -9,8 +9,12 @@
 #include <cmath>
 #include <memory>
 #include <deque>
+#include <string>
+#include <stdexcept>
 
-#define CHOICES 4
+
+#define MIN_SHIP 1
+#define MAX_SHIP 4
 
 class Ship;
 
@@ -92,7 +96,44 @@ private:
 
 };
 
-void PlaceShips(std::deque<Ship *> *, std::deque<Ship *> *, IntGrid *, PimplGrid *ShipMap);
+//placer.cpp
+//void PlaceShips(std::deque<Ship *>*, std::deque<Ship *>*, IntGrid *, PimplGrid*);
+void PlaceShips(std::deque<Ship *> *, IntGrid *, PimplGrid *);
+
+//interface.cpp
+int readInt();
+
+int readIntFromRange(int, int);
+
+int gatherX();
+
+int gatherY();
+
+int gatherXCoord(int);
+
+int gatherYCoord(int);
+
+int gatherHeading();
+
+int gatherXPos(int);
+
+int gatherYPos(int);
+
+void presentGrid(PimplGrid *);
+
+void addShips(std::deque<Ship *> *);
+
+void PlaceFromQueue(std::deque<Ship *> *, IntGrid *, PimplGrid *);
+
+void PlaceManually(std::deque<Ship *> *, IntGrid *, PimplGrid *);
+
+bool TryPlacing(Ship *, PimplGrid *, IntGrid *, int, int, int);
+
+void RemoveManually(std::deque<Ship *> *, IntGrid *, PimplGrid *);
+
+void AnalyzeNotPlaced(std::deque<Ship *> *);
+
+void DestroyNotPlaced(std::deque<Ship *> *);
 
 
 #endif //STATKI_PIMPL_SHIPPIMPL_H

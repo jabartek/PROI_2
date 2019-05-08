@@ -9,35 +9,25 @@ using namespace std;
 
 
 int main() {
-    int m, n;
-    cin >> m >> n;
-    IntGrid *MapaI = new IntGrid(m, n);
-    PimplGrid *MapaS = new PimplGrid(m, n);
-    deque<Ship *> kolejka1 = {};
-    deque<Ship *> kolejka2 = {};
-    int x1, x2, x3, x4;
-    cin >> x1 >> x2 >> x3 >> x4;
-    for (int i = 0; i < x1; i++) {
-        Ship *temp = new Ship(1);
-        kolejka1.push_front(temp);
-    }
-    for (int i = 0; i < x2; i++) {
-        Ship *temp = new Ship(2);
-        kolejka1.push_front(temp);
-    }
-    for (int i = 0; i < x3; i++) {
-        Ship *temp = new Ship(3);
-        kolejka1.push_front(temp);
-    }
-    for (int i = 0; i < x4; i++) {
-        Ship *temp = new Ship(4);
-        kolejka1.push_front(temp);
-    }
+    int xSize, ySize;
 
-    PlaceShips(&kolejka1, &kolejka2, MapaI, MapaS);
+    deque<Ship *> shipsNotPlaced = {};
 
-    MapaS->printGrid();;
-    delete MapaS;
+
+    xSize = gatherX();
+    ySize = gatherY();
+
+    IntGrid MapaI(xSize, ySize);
+    PimplGrid MapaS(xSize, ySize);
+
+    presentGrid(&MapaS);
+
+    addShips(&shipsNotPlaced);
+    PlaceFromQueue(&shipsNotPlaced, &MapaI, &MapaS);
+    AnalyzeNotPlaced(&shipsNotPlaced);
+    RemoveManually(&shipsNotPlaced, &MapaI, &MapaS);
+
+    DestroyNotPlaced(&shipsNotPlaced);
 
     return 0;
 }
