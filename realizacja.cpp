@@ -1,4 +1,4 @@
-//
+#include "header.h"//
 // Created by Bartek on 07.05.2019.
 //
 
@@ -63,9 +63,9 @@ int GridTemplate<int>::getValue(int xPos, int yPos) {
 }
 
 template<>
-ShipPImpl *GridTemplate<ShipPImpl *>::getValue(int xPos, int yPos) {
+Ship *GridTemplate<Ship *>::getValue(int xPos, int yPos) {
     if (xPos >= 0 && xPos < xSize_ && yPos >= 0 && yPos < ySize_) {
-        return (ShipPImpl *) tiles_[yPos][xPos];
+        return (Ship *) tiles_[yPos][xPos];
     } else return nullptr;
 }
 
@@ -87,7 +87,7 @@ void GridTemplate<int>::printGrid() {
 }
 
 template<>
-void GridTemplate<ShipPImpl *>::printGrid(int param) {
+void GridTemplate<Ship *>::printGrid(int param) {
     for (int i = 0; i < ySize_; i++) {
         for (int j = 0; j < xSize_; j++) {
 
@@ -100,7 +100,7 @@ void GridTemplate<ShipPImpl *>::printGrid(int param) {
 }
 
 template<>
-void GridTemplate<ShipPImpl *>::printGrid() {
+void GridTemplate<Ship *>::printGrid() {
     this->printGrid(0);
 }
 
@@ -119,34 +119,31 @@ void GridTemplate<T>::allocation() {
 }
 
 
-class ShipPImpl::Impl {
+class ShipImpl {
 public:
-    explicit Impl(int tilesNum) : tiles_(tilesNum) {
+    explicit ShipImpl(int tilesNum) : tiles_(tilesNum) {
         allocation();
         placedOnInts_ = nullptr;
         placedOnShip_ = nullptr;
     }
 
-    Impl() : tiles_(0) {
+    ShipImpl() : tiles_(0) {
         allocation();
         placedOnInts_ = nullptr;
         placedOnShip_ = nullptr;
     }
 
-    virtual ~Impl() {
+    virtual ~ShipImpl() {
         this->removeFromMap();
         delete[] hitTiles_;
     };
 
-    Impl(const Impl &) {
+    ShipImpl(const ShipImpl &) {
 
     };
 
     //Impl& operator=(const Impl& );
     void removeFromMap() {
-        removeFromMap(parent_);
-    }
-    void removeFromMap(const ShipPImpl *S) {
         if (!isPlaced_)
             return;
         switch (heading_) {
@@ -154,7 +151,7 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + i, headY_ + j);
-                        if (placedOnShip_->getValue(i, j) == S) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
                     }
                 }
                 headX_ = -1;
@@ -168,7 +165,7 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + j, headY_ - i);
-                        if (placedOnShip_->getValue(i, j) == S) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
                     }
                 }
                 headX_ = -1;
@@ -182,7 +179,7 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ - i, headY_ + j);
-                        if (placedOnShip_->getValue(i, j) == S) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
                     }
                 }
                 headX_ = -1;
@@ -196,7 +193,7 @@ public:
                 for (int i = -1; i <= tiles_; i++) {
                     for (int j = -1; j <= 1; j++) {
                         placedOnInts_->subAtXY(headX_ + j, headY_ + i);
-                        if (placedOnShip_->getValue(i, j) == S) placedOnShip_->clearTile(i, j);
+                        if (placedOnShip_->getValue(i, j) != nullptr) placedOnShip_->clearTile(i, j);
                     }
                 }
                 headX_ = -1;
@@ -209,8 +206,8 @@ public:
         }
     }
 
-    bool placeAtXY(PimplGrid *shipGrid, IntGrid *intGrid, int xPos, int yPos, int heading, const ShipPImpl *S) {
-        if (isPlaced_) removeFromMap(S);
+    bool placeAtXY(PimplGrid *shipGrid, IntGrid *intGrid, int xPos, int yPos, int heading, const Ship *S) {
+        if (isPlaced_) removeFromMap();
         bool ifValid = false;
         if (intGrid->getValue(xPos, yPos) != 0)
             return false;
@@ -235,7 +232,7 @@ public:
                         }
                     }
                     for (int i = 0; i < tiles_; i++) {
-                        shipGrid->setValue((ShipPImpl *) S, xPos + i, yPos);
+                        shipGrid->setValue((Ship *) S, xPos + i, yPos);
                     }
                 }
                 break;
@@ -259,7 +256,7 @@ public:
                         }
                     }
                     for (int i = 0; i < tiles_; i++) {
-                        shipGrid->setValue((ShipPImpl *) S, xPos, yPos - i);
+                        shipGrid->setValue((Ship *) S, xPos, yPos - i);
                     }
                 }
                 break;
@@ -283,7 +280,7 @@ public:
                         }
                     }
                     for (int i = 0; i < tiles_; i++) {
-                        shipGrid->setValue((ShipPImpl *) S, xPos - i, yPos);
+                        shipGrid->setValue((Ship *) S, xPos - i, yPos);
                     }
                 }
                 break;
@@ -307,7 +304,7 @@ public:
                         }
                     }
                     for (int i = 0; i < tiles_; i++) {
-                        shipGrid->setValue((ShipPImpl *) S, xPos, yPos + i);
+                        shipGrid->setValue((Ship *) S, xPos, yPos + i);
                     }
                 }
                 break;
@@ -381,9 +378,6 @@ public:
         return (shotAt_ >= tiles_);
     }
 
-    void setParent(ShipPImpl *S) {
-        parent_ = S;
-    }
 
 private:
     void allocation() {
@@ -400,58 +394,60 @@ private:
     int headY_ = -1;
     bool isPlaced_ = false;
     int shotAt_ = 0;
-    ShipPImpl *parent_ = nullptr;
+    Ship *parent_ = nullptr;
     PimplGrid *placedOnShip_;
     IntGrid *placedOnInts_;
 
 };
 
-bool ShipPImpl::placeAtXY(PimplGrid *shipGrid, IntGrid *intGrid, int xPos, int yPos, int heading) {
-    return pImpl->placeAtXY(shipGrid, intGrid, xPos, yPos, heading, (const ShipPImpl *) this);
+bool Ship::placeAtXY(PimplGrid *shipGrid, IntGrid *intGrid, int xPos, int yPos, int heading) {
+    return pImpl()->placeAtXY(shipGrid, intGrid, xPos, yPos, heading, (const Ship *) this);
 }
 
-void ShipPImpl::removeFromMap() {
-    pImpl->removeFromMap((const ShipPImpl *) this);
+void Ship::removeFromMap() {
+    pImpl()->removeFromMap();
 }
 
-int ShipPImpl::shotAtXY(int xCoord, int yCoord) {
-    return pImpl->shotAtXY(xCoord, yCoord);
+int Ship::shotAtXY(int xCoord, int yCoord) {
+    return pImpl()->shotAtXY(xCoord, yCoord);
 }
 
-int ShipPImpl::shotAtTile(int pos) {
-    return pImpl->shotAtTile(pos);
+int Ship::shotAtTile(int pos) {
+    return pImpl()->shotAtTile(pos);
 }
 
-char ShipPImpl::renderTile(int pos, int param) {
-    return pImpl->renderTile(pos, param);
+char Ship::renderTile(int pos, int param) {
+    return pImpl()->renderTile(pos, param);
 }
 
-char ShipPImpl::renderXY(int xCoord, int yCoord, int param) {
-    return pImpl->renderXY(xCoord, yCoord, param);
+char Ship::renderXY(int xCoord, int yCoord, int param) {
+    return pImpl()->renderXY(xCoord, yCoord, param);
 }
 
-int ShipPImpl::getTiles() {
-    return pImpl->getTiles();
+int Ship::getTiles() {
+    return pImpl()->getTiles();
 }
 
-bool ShipPImpl::isDead() {
-    return pImpl->isDead();
+bool Ship::isDead() {
+    return pImpl()->isDead();
 }
 
-ShipPImpl::~ShipPImpl() {
-    delete pImpl;
-}
 
-ShipPImpl::ShipPImpl(int s) : pImpl(new Impl(s)) {
-    pImpl->setParent(this);
+Ship::Ship(int s) : pImpl_(new ShipImpl(s)) {
 };
 
-ShipPImpl::ShipPImpl() : pImpl(new Impl(1)) {
-    pImpl->setParent(this);
+Ship::Ship() : pImpl_(new ShipImpl(1)) {
 };
+
+Ship::~Ship() {
+    std::cout << "DEL"; //DEBUG
+};
+
+
+
 
 template
 class GridTemplate<int>;
 
 template
-class GridTemplate<ShipPImpl *>;
+class GridTemplate<Ship *>;

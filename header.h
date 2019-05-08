@@ -12,7 +12,9 @@
 
 #define CHOICES 4
 
-class ShipPImpl;
+class Ship;
+
+class ShipImpl;
 
 template<class T>
 class GridTemplate {
@@ -53,21 +55,17 @@ private:
     T **tiles_;
 };
 
-typedef GridTemplate<ShipPImpl *> PimplGrid;
+typedef GridTemplate<Ship *> PimplGrid;
 typedef GridTemplate<int> IntGrid;
 
-class ShipPImpl {
+class Ship {
 public:
 
-    explicit ShipPImpl(int);
+    explicit Ship(int);
 
-    ShipPImpl();
+    Ship();
 
-    ~ShipPImpl();
-
-    ShipPImpl(const ShipPImpl &);
-
-    //ShipPImpl& operator=(const ShipPImpl& );
+    ~Ship();
 
     bool placeAtXY(PimplGrid *, IntGrid *, int, int, int);
 
@@ -86,11 +84,15 @@ public:
     char renderXY(int, int, int param = 0);
 
 private:
-    class Impl;
+    const ShipImpl *pImpl() const { return pImpl_.get(); }
 
-    Impl *pImpl;
+    ShipImpl *pImpl() { return pImpl_.get(); }
+
+    std::unique_ptr<ShipImpl> pImpl_;
 
 };
+
+void PlaceShips(std::deque<Ship *>, std::deque<Ship *>, IntGrid *, PimplGrid *ShipMap);
 
 
 #endif //STATKI_PIMPL_SHIPPIMPL_H

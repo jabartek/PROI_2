@@ -5,75 +5,36 @@
 
 #include "header.h"
 
+using namespace std;
+
+
 int main() {
-    ShipPImpl tablica[10];
-
-    IntGrid Mapa1(10, 10);
-    PimplGrid Mapa2(10, 10);
-
-    Mapa1.printGrid();
-    Mapa2.printGrid();
-
-
-    /*
-    std::deque<ShipPImpl *> Kolejka1 = {};
-    std::deque<ShipPImpl *> Kolejka2 = {};
-    int typeCounts[CHOICES];
-    int x, y;
-    std::cout << "Podaj szerokosc planszy: ";
-    std::cin >> x;
-    std::cout << "Podaj wysokosc planszy: ";
-    std::cin >> y;
-    auto *MapaInt = new IntGrid(x, y);
-    auto *MapaPimpl = new PimplGrid(x, y);
-    for (int i = 1; i <= CHOICES; i++) {
-        std::cout << "\nPodaj liczbe " << i << "-masztowcow : ";
-        std::cin >> typeCounts[i - 1];
+    IntGrid *MapaI = new IntGrid(7, 5);
+    PimplGrid *MapaS = new PimplGrid(7, 5);
+    deque<Ship *> kolejka1 = {};
+    deque<Ship *> kolejka2 = {};
+    for (int i = 0; i < 0; i++) {
+        Ship *temp = new Ship(1);
+        kolejka1.push_front(temp);
     }
-    for (int i = 0; i < CHOICES; i++) {
-        for (int j = 0; j < typeCounts[i]; j++) {
-            auto temp = new ShipPImpl(i + 1);
-            Kolejka1.push_back(temp);
-        }
+    for (int i = 0; i < 2; i++) {
+        Ship *temp = new Ship(2);
+        kolejka1.push_front(temp);
     }
-    while (!Kolejka1.empty()) {
-        int xPos, yPos, heading;
-        ShipPImpl *temp = Kolejka1.front();
-        std::cout << "Oto " << temp->getTiles() << "-masztowiec. Gdzie stawiamy?\nPodaj x: ";
-        std::cin >> xPos;
-        std::cout << "Podaj y: ";
-        std::cin >> yPos;
-        std::cout << "Podaj kierunek (0 - wschod, 1 - polnoc, 2 - zachod, 3 - poludnie): ";
-        std::cin >> heading;
-        if (temp->placeAtXY(MapaPimpl, MapaInt, xPos, yPos, heading)) {
-            std::cout << "\nSukces!\n";
-            MapaPimpl->printGrid();
-            Kolejka2.push_front(Kolejka1.front());
-            Kolejka1.pop_front();
-        } else {
-            std::cout << "O nie! Sprobuj ponownie :<\n";
-        }
+    for (int i = 0; i < 1; i++) {
+        Ship *temp = new Ship(3);
+        kolejka1.push_front(temp);
     }
-    bool shooting = true;
-    int xCoord, yCoord;
-    while (shooting) {
-        std::cout << "Strzelamy? (Tak - 1, Nie - 0) : ";
-        std::cin >> shooting;
-        shooting = (bool) shooting;
-        if (shooting) {
-            MapaPimpl->printGrid(1);
-            std::cout << "Podaj wspolrzedne (x y): ";
-            std::cin >> xCoord >> yCoord;
-            if (MapaPimpl->getValue(xCoord, yCoord)) {
-                if (MapaPimpl->getValue(xCoord, yCoord)->shotAtXY(xCoord, yCoord)) {
-                    std::cout << "TRAFIONY!\n";
-                    if (MapaPimpl->getValue(xCoord, yCoord)->isDead())
-                        std::cout << "ZATOPIONY!\n";
-                    MapaPimpl->printGrid(1);
-                }
-            } else
-                std::cout << "Nie trafiles :<\n";
-        }
-    }*/
+    for (int i = 0; i < 2; i++) {
+        Ship *temp = new Ship(4);
+        kolejka1.push_front(temp);
+    }
+
+    PlaceShips(kolejka1, kolejka2, MapaI, MapaS);
+
+    MapaS->printGrid();;
+
+
+
     return 0;
 }
