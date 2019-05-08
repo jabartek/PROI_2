@@ -455,6 +455,7 @@ Ship::Ship() : pImpl_(new ShipImpl(1)) {
 Ship::~Ship() {
     std::cout << "DEL"; //DEBUG
     this->removeFromMap();
+    pImpl_ = nullptr;
 };
 
 
