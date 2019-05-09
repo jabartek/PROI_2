@@ -198,7 +198,7 @@ void ClearQueue(std::deque<Ship *> *toBeCleared) {
 
 bool interaction(deque<Ship *> *shipsNotPlaced, IntGrid *MapaI, PimplGrid *MapaS) {
     cout
-            << "Which action do you want to take?\n1 - Display the map\n2 - Add ships to queue\n3 - Place ships from queue\n4 - Display report about ships in queue\n5 - Remove ships from map\n6 - Clear queue\n0 - Exit\n";
+            << "\nWhich action do you want to take?\n1 - Display the map\n2 - Add ships to queue\n3 - Place ships from queue\n4 - Display a report about ships in queue\n5 - Remove ships from map\n6 - Clear queue\n0 - Exit\n";
     bool toContinue = true;
     int action = readIntFromRange(0, 6);
     switch (action) {
