@@ -133,7 +133,10 @@ void RemoveManually(std::deque<Ship *> *, IntGrid *, PimplGrid *);
 
 void AnalyzeNotPlaced(std::deque<Ship *> *);
 
-void DestroyNotPlaced(std::deque<Ship *> *);
+bool interaction(std::deque<Ship *> *, IntGrid *, PimplGrid *);
+
+
+void ClearQueue(std::deque<Ship *> *);
 
 
 #endif //STATKI_PIMPL_SHIPPIMPL_H

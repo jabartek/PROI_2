@@ -20,14 +20,9 @@ int main() {
     IntGrid MapaI(xSize, ySize);
     PimplGrid MapaS(xSize, ySize);
 
-    presentGrid(&MapaS);
+    while (interaction(&shipsNotPlaced, &MapaI, &MapaS))
 
-    addShips(&shipsNotPlaced);
-    PlaceFromQueue(&shipsNotPlaced, &MapaI, &MapaS);
-    AnalyzeNotPlaced(&shipsNotPlaced);
-    RemoveManually(&shipsNotPlaced, &MapaI, &MapaS);
-
-    DestroyNotPlaced(&shipsNotPlaced);
+        ClearQueue(&shipsNotPlaced);
 
     return 0;
 }

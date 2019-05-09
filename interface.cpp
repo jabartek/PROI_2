@@ -91,7 +91,6 @@ void PlaceFromQueue(deque<Ship *> *pending, IntGrid *IntMap, PimplGrid *ShipMap)
     int action;
     cout << "\nHow do you want ships to be placed? (1 - automatically, 2 - manually)\n";
     action = readIntFromRange(1, 2);
-    cout << "DDD" << action << "EEE";
     switch (action) {
         case 1:
             PlaceShips(pending, IntMap, ShipMap);
@@ -190,9 +189,39 @@ void AnalyzeNotPlaced(std::deque<Ship *> *pending) {
     delete[] tab;
 }
 
-void DestroyNotPlaced(std::deque<Ship *> *pending) {
-    while (!pending->empty()) {
-        delete pending->front();
-        pending->pop_front();
+void ClearQueue(std::deque<Ship *> *toBeCleared) {
+    while (!toBeCleared->empty()) {
+        delete toBeCleared->front();
+        toBeCleared->pop_front();
     }
 };
+
+bool interaction(deque<Ship *> *shipsNotPlaced, IntGrid *MapaI, PimplGrid *MapaS) {
+    cout
+            << "Which action do you want to take?\n1 - Display the map\n2 - Add ships to queue\n3 - Place ships from queue\n4 - Display report about ships in queue\n5 - Remove ships from map\n6 - Clear queue\n0 - Exit\n";
+    bool toContinue = true;
+    int action = readIntFromRange(0, 6);
+    switch (action) {
+        case 1:
+            presentGrid(MapaS);
+            break;
+        case 2:
+            addShips(shipsNotPlaced);
+            break;
+        case 3:
+            PlaceFromQueue(shipsNotPlaced, MapaI, MapaS);
+            break;
+        case 4:
+            AnalyzeNotPlaced(shipsNotPlaced);
+            break;
+        case 5:
+            RemoveManually(shipsNotPlaced, MapaI, MapaS);
+            break;
+        case 6:
+            ClearQueue(shipsNotPlaced);
+            break;
+        default:
+            toContinue = false;
+    }
+    return toContinue;
+}
